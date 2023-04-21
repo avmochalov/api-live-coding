@@ -39,11 +39,11 @@
             })
             .then((responseData) => {
                 tasks = responseData.todos;
-                renderTasks();
+                renderApp();
             });
     };
 
-    const renderTasks = () => {
+    const renderApp = () => {
         const tasksHtml = tasks
             .map((task) => {
                 return `
@@ -145,7 +145,7 @@
                     .then((response) => {
                         // получили данные и рендерим их в приложении
                         tasks = response.todos;
-                        renderTasks();
+                        renderApp();
                     });
             });
         }
