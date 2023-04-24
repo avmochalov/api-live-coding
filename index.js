@@ -1,4 +1,5 @@
 import { addTodo, deleteTodo, getTodos } from "./api.js";
+import { renderLoginComponent } from "./components/login-component.js";
 
 const listElement = document.getElementById("list");
 const appEl = document.getElementById("app");
@@ -19,23 +20,11 @@ const fetchTodosAndRender = () => {
 
 const renderApp = () => {
     if (!token) {
-        const appHtml = `<div class="form">
-        <h3 class="form-title">Форма входа</h3>
-        <div class="form-row">
-            Логин
-            <input type="text" id="login-input" class="input" placeholder="Логин" />
-            <br>
-            Пароль
-            <input type="text" id="pwd-input" class="input" placeholder="Пароль" />
-        </div>
-        <br />
-        <button class="button" id="login-button">Войти</button>
-    </div>`
-        appEl.innerHTML = appHtml;
-        document.getElementById('login-button').addEventListener('click', () => {
-            token = "Bearer asb4c4boc86gasb4c4boc86g37w3cc3bo3b83k4g37k3bk3cg3c03ck4k";
-            fetchTodosAndRender();
-        })
+        renderLoginComponent({
+            appEl, fetchTodosAndRender, setToken: (newToken) => {
+                token = newToken;
+            }
+        });
         return;
     }
     const tasksHtml = tasks
@@ -77,8 +66,9 @@ const renderApp = () => {
         buttonElement.textContent = "Задача добавляется...";
 
         // подписываемся на успешное завершение запроса с помощью then
-        addTodo({ 
-            text: textInputElement.value, token })
+        addTodo({
+            text: textInputElement.value, token
+        })
             .then(() => {
                 // TODO: кинуть исключение
                 textInputElement.value = "";
