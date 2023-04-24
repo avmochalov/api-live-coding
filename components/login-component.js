@@ -15,9 +15,9 @@ export function renderLoginComponent({ appEl, setToken, fetchTodosAndRender }) {
 </div>`
     appEl.innerHTML = appHtml;
     document.getElementById('login-button').addEventListener('click', () => {
-        fetchTodosAndRender();
         let login = document.getElementById('login-input').value;
-        let password = document.getElementById('pwd-input').value
+        let password = document.getElementById('pwd-input').value;
+
         loginUser({ login: login, password: password })
             .then((user) => {
                 setToken(`Bearer ${user.user.token}`);
