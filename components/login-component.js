@@ -1,7 +1,7 @@
-import { loginUser } from "../api.js";
+import { loginUser, regUser } from "../api.js";
 
 export function renderLoginComponent({ appEl, setToken, fetchTodosAndRender }) {
-    let isLoginMode = false;
+    let isLoginMode = true;
     function renderForm() {
         const appHtml = `<div class="form">
     <h3 class="form-title">Форма ${isLoginMode ? 'входа' : 'регистрации'}</h3>
@@ -21,16 +21,30 @@ export function renderLoginComponent({ appEl, setToken, fetchTodosAndRender }) {
 </div>`
         appEl.innerHTML = appHtml;
         document.getElementById('login-button').addEventListener('click', () => {
-            let login = document.getElementById('login-input').value;
-            let password = document.getElementById('pwd-input').value;
+            if (isLoginMode) {
+                let login = document.getElementById('login-input').value;
+                let password = document.getElementById('pwd-input').value;
 
-            loginUser({ login: login, password: password })
-                .then((user) => {
-                    setToken(`Bearer ${user.user.token}`);
-                    fetchTodosAndRender();
-                }).catch((error) => {
-                    alert(error.message)
-                })
+                loginUser({ login: login, password: password })
+                    .then((user) => {
+                        setToken(`Bearer ${user.user.token}`);
+                        fetchTodosAndRender();
+                    }).catch((error) => {
+                        alert(error.message)
+                    })
+            } else {
+                let name = document.getElementById('name-input').value;
+                let login = document.getElementById('login-input').value;
+                let password = document.getElementById('pwd-input').value;
+                regUser({ name: name, login: login, password: password })
+                    .then((user) => {
+                        setToken(`Bearer ${user.user.token}`);
+                        fetchTodosAndRender();
+                    }).catch((error) => {
+                        alert(error.message)
+                    })
+            }
+
         });
 
         document.getElementById('toggle-button').addEventListener('click', () => {
