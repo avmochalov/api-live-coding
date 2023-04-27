@@ -1,5 +1,5 @@
 import { loginUser, regUser } from "../api.js";
-
+import _ from 'lodash';
 export function renderLoginComponent({ appEl, setToken, fetchTodosAndRender }) {
     let isLoginMode = true;
     function renderForm() {
@@ -36,7 +36,11 @@ export function renderLoginComponent({ appEl, setToken, fetchTodosAndRender }) {
                 let name = document.getElementById('name-input').value;
                 let login = document.getElementById('login-input').value;
                 let password = document.getElementById('pwd-input').value;
-                regUser({ name: name, login: login, password: password })
+                regUser({
+                    name: _.capitalize(name),
+                    login: login,
+                    password: password
+                })
                     .then((user) => {
                         setToken(`Bearer ${user.user.token}`);
                         fetchTodosAndRender();

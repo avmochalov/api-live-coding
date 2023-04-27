@@ -14,7 +14,6 @@ export function getTodos({ token }) {
                 // fetchTodosAndRender();
                 throw new Error("Нет авторизации");
             }
-
             return response.json();
         });
 }
